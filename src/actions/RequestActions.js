@@ -17,7 +17,7 @@ export function fetchGroups(queryString) {
 
   if (queryString.length === 0) receiveEmptyGroupsList()
 
-  const link = `http://api.rozklad.org.ua/v2/groups/?search={'query':'${queryString}'}`;
+  const link = `https://api.rozklad.org.ua/v2/groups/?search={'query':'${queryString}'}`;
   return dispatch => {
     dispatch({
       type: REQUEST_GROUPS
@@ -41,7 +41,7 @@ function receiveGroups(json) {
 }
 
 export function fetchSchedule(group) {
-  const link = `http://api.rozklad.org.ua/v2/groups/${group}/timetable`;
+  const link = `https://api.rozklad.org.ua/v2/groups/${group}/timetable`;
   return dispatch => {
     dispatch({
       type: REQUEST_SCHEDULE

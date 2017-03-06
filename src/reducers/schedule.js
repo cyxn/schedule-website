@@ -2,20 +2,20 @@ import { REQUEST_SCHEDULE, RECEIVE_SCHEDULE, RECIEVE_WRONG_GROUP } from '../cons
 
 const initialState = {
   schedule: {},
-  isFetching: false,
+  dataReady: false,
   notFound: false
 }
 
 export default function schedule(state = initialState, action) {
   switch (action.type) {
     case REQUEST_SCHEDULE:
-      return {...state, isFetching: true};
+      return {...state, dataReady: false};
     case RECIEVE_WRONG_GROUP:
-      return {...state, isFetching: false, notFound: true}
+      return {...state, dataReady: true, notFound: true}
     case RECEIVE_SCHEDULE:
       return Object.assign({}, state, {
         schedule: action.result,
-        isFetching: false,
+        dataReady: true,
         notFound: false
       })
     default:

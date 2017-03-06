@@ -1,5 +1,5 @@
 html {
-  background-color: #f9f9f9;
+  background-color: #effafe;
   background-image: url(../img/background10.jpg);
 }
 
@@ -30,4 +30,18 @@ a {
 img {
   max-width: 100%;
   height: auto;
+}
+
+@media screen and (max-width: 615px) {
+  html {
+    background-image: none;
+    background: rgba(239,250,254,0.83);
+    background: -moz-linear-gradient(top, rgba(239,250,254,0.83) 0%, rgba(167,204,241,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(239,250,254,0.83)), color-stop(100%, rgba(167,204,241,1)));
+    background: -webkit-linear-gradient(top, rgba(239,250,254,0.83) 0%, rgba(167,204,241,1) 100%);
+    background: -o-linear-gradient(top, rgba(239,250,254,0.83) 0%, rgba(167,204,241,1) 100%);
+    background: -ms-linear-gradient(top, rgba(239,250,254,0.83) 0%, rgba(167,204,241,1) 100%);
+    background: linear-gradient(to bottom, rgba(239,250,254,0.83) 0%, rgba(167,204,241,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#a7ccf1', GradientType=0 );
+  }
 }

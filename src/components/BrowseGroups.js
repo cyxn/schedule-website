@@ -16,7 +16,6 @@ function BrowseGroups({groups, RequestActions, router}) {
     return groups.map(item => item.group_full_name);
   }
   function handleSelect(object, selected) {
-    RequestActions.fetchSchedule(object.suggestion);
     router.push(`/timetable/${object.suggestion}`);
   }
   let groupIndex = -1;
@@ -26,7 +25,6 @@ function BrowseGroups({groups, RequestActions, router}) {
         if (groups.length === 0) break;
         if (groupIndex === -1) groupIndex = 0;
         const suggestion = groups[groupIndex].group_full_name;
-        RequestActions.fetchSchedule(suggestion);
         router.push(`/timetable/${suggestion}`);
         break;
       case 38:
