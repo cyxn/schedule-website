@@ -6,7 +6,7 @@ import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
 import '../styles/Header.sass';
 
-function AppBarHeader({...rest}) {
+function AppBarHeader() {
   return (
     <Header>
       <Link to='/' className='header-link header-title'>

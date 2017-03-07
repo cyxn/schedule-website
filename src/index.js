@@ -1,24 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute } from 'react-router';
-import { Provider } from 'react-redux';
-import configureStore, { history } from './store';
-import App from './containers/App';
-import Browse from './containers/Browse';
-import Login from './containers/Login';
-import Schedule from './containers/Schedule';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Provider } from 'mobx-react';
+
+import App from './components/App';
+import Browse from './components/Browse';
+import Login from './components/Login';
+import Timetable from './components/Timetable';
+
+import * as stores from './stores';
+
 import 'grommet/scss/vanilla/index.scss';
 import './styles/index.css';
 
-const store = configureStore();
-
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
+  <Provider {...stores}>
+    <Router history={browserHistory}>
       <Route path='/' component={App}> // some header (where user logged in or not)
         <IndexRoute component={Browse}/> // the main page here
         <Route path="login" component={Login} />
-        <Route path="timetable/:group" component={Schedule} /> // user found his group or logged in
+        <Route path="timetable/:group" component={Timetable} /> // user found his group or logged in
       </Route>
     </Router>
   </Provider>,
