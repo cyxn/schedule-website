@@ -1,8 +1,6 @@
 import React from 'react';
 import MDSpinner from 'react-md-spinner';
 import Paragraph from 'grommet/components/Paragraph';
-import Headline from 'grommet/components/Headline';
-
 
 // import TimetableCard from './TimetableCard';
 import '../styles/Timetable.sass';

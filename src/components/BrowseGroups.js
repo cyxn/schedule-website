@@ -1,9 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
 import Search from 'grommet/components/Search';
 import Paragraph from 'grommet/components/Paragraph';
 import Button from 'grommet/components/Button';
-import SearchInput from 'grommet/components/SearchInput';
 
 import '../styles/BrowseGroups.sass';
 
@@ -33,7 +31,9 @@ function BrowseGroups({groups, RequestActions, router}) {
       case 40:
         if (groupIndex !== groups.length - 1)
           ++groupIndex;
-        break
+        break;
+      default:
+        break;
     }
   }
   return (
