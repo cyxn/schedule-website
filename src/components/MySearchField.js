@@ -2,12 +2,23 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 
 import Search from 'grommet/components/Search';
+import Select from 'grommet/components/Select';
+
 
 @inject('groupsStore') @observer
 export default class MySearchField extends Component {
-  constructor() {
-    super();
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectValue: undefined
+    }
+    this.selectField = null;
     this.groupIndex = -1;
+  }
+
+  componentDidMount() {
+    this.selectField.inputRef.placeholder = 'Enter your group';
   }
 
   hangleChange = (event) => {
@@ -16,11 +27,20 @@ export default class MySearchField extends Component {
 
   suggestionList = (groups) => {
     if (groups.length === 0) return [];
-    return groups.map(item => item.group_full_name);
+    return groups
+        .map(item => item.group_full_name)
+        .filter((item, index) => index < 8);
   }
 
   handleSelect = (object) => {
-    this.props.router.push(`/timetable/${object.suggestion}`);
+    if (this.props.customType === 'search') {
+      this.props.router.push(`/timetable/${object.suggestion}`);
+    } else {
+      this.setState({
+        selectValue: object.option
+      })
+    }
+
   }
 
   onKeyDown = (event) => {
@@ -45,17 +65,30 @@ export default class MySearchField extends Component {
 
   render() {
     const { groups } = this.props.groupsStore;
-    return (
-      <Search placeHolder='Enter group name'
-        className='browse-search-input'
-        suggestions={this.suggestionList(groups)}
-        inline={true}
-        size='medium'
-        onSelect={this.handleSelect}
-        onKeyDown={this.onKeyDown}
-        responsive={false}
-        onDOMChange={this.hangleChange} />
-    )
+    const { customType } = this.props;
+    if (customType === 'search') {
+      return (
+        <Search placeHolder='Enter group name'
+          className='browse-search-input'
+          suggestions={this.suggestionList(groups)}
+          inline={true}
+          size='medium'
+          onSelect={this.handleSelect}
+          onKeyDown={this.onKeyDown}
+          responsive={false}
+          onDOMChange={this.hangleChange} />
+      )
+    } else if (customType === 'select') {
+      return (
+        <Select placeHolder='Find your group'
+          ref={(item => this.selectField = item)}
+          onSearch={this.hangleChange}
+          options={this.suggestionList(groups)}
+          value={this.state.selectValue}
+          onChange={this.handleSelect} />
+      )
+    }
+    return null;
   }
 
 }

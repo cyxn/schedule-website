@@ -15,7 +15,7 @@ export default class Browse extends Component {
     const { changeAutorizeType } = autorizeStore;
     return (
       <div className='browse-search'>
-        <MySearchField {...this.props}/>
+        <MySearchField customType='search' {...this.props}/>
         <Paragraph>
           or you can
         </Paragraph>

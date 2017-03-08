@@ -8,13 +8,10 @@ const config = {
   messagingSenderId: "364223037382"
 }
 
-firebase.initializeApp(config);
+const firebaseApp = firebase.initializeApp(config);
 
-const root = firebase.database().ref();
-const todos = firebase.database().ref('todos');
+const fb_root = firebaseApp.database().ref();
+const fb_auth = firebaseApp.auth();
 
-const Fb = {
-  root,
-  todos
-};
-export { Fb };
+
+export { fb_root, fb_auth };

@@ -1,11 +1,11 @@
 import groupsStore from './groupsStore';
 import timetableStore from './timetableStore';
-import todosStore from './todosStore';
 import autorizeStore from './autorizeStore';
+import userAuthStore from './userAuthStore';
 
 export {
   groupsStore,
   autorizeStore,
-  todosStore,
+  userAuthStore,
   timetableStore
  };
