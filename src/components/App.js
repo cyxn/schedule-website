@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import DevTools from 'mobx-react-devtools'
 import Header from './Header';
 
 class App extends Component {
@@ -8,7 +7,6 @@ class App extends Component {
       <div>
         <Header {...this.props}/>
         {this.props.children}
-        <DevTools />
       </div>
     )
   }

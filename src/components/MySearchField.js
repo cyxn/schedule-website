@@ -18,7 +18,8 @@ export default class MySearchField extends Component {
   }
 
   componentDidMount() {
-    this.selectField.inputRef.placeholder = 'Enter your group';
+    if (this.props.customType === 'select')
+      this.selectField.inputRef.placeholder = 'Enter your group';
   }
 
   hangleChange = (event) => {

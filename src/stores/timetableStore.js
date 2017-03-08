@@ -27,11 +27,4 @@ class TimetableStore {
 }
 
 const timetableStore = new TimetableStore();
-autorun('TimetableStore', () => {
-  console.log('---------------timetableStore---------------');
-  console.log(timetableStore.schedule);
-  console.log('dataReady: ' + timetableStore.dataReady);
-  console.log('notFound: ' + timetableStore.notFound);
-  console.log('---------------timetableStore---------------');
-})
 export default timetableStore;
