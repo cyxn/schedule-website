@@ -11,3 +11,16 @@
 
 .signup-form
   margin: -16px auto 0 auto
+
+.status-email-ok,
+.status-pass-ok
+  position: absolute
+  top: 36px
+  right: 13px
+  visibility: hidden
+
+.signup_form-email:required:valid + .status-email-ok
+  visibility: visible
+
+.signup_form-pass:required:valid + .status-pass-ok
+  visibility: visible

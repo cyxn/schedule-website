@@ -12,6 +12,7 @@ import Button from 'grommet/components/Button';
 import Heading from 'grommet/components/Heading';
 import Anchor from 'grommet/components/Anchor';
 import Label from 'grommet/components/Label';
+import Status from 'grommet/components/icons/Status';
 
 import MySearchField from './MySearchField';
 
@@ -19,8 +20,8 @@ import '../styles/Login.sass';
 
 @inject('autorizeStore') @observer
 export default class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.email = null;
     this.password = null;
   }
@@ -30,9 +31,12 @@ export default class Login extends Component {
   }
 
   loginSubmit = (credits) => {
-    this.props.autorizeStore.userSignIn(credits.username, credits.password);
-    // TODO: push router to schedule. some notification that logged successfully
+    const redirect = () => {
+      this.props.router.push('/'); //NOTE: take path from store userAuthStore about group name
+    }
+    this.props.autorizeStore.userSignIn(credits.username, credits.password, redirect);
   }
+
 
   signUpSubmit = (e) => {
     e.preventDefault();
@@ -67,17 +71,35 @@ export default class Login extends Component {
               className='signup-form'
               pad='medium'>
               <FormField label='Email'>
-                <TextInput ref={item => this.email = item}/>
+                <TextInput ref={item => {
+                    this.email = item;
+                    if (this.email) {
+                      this.email.componentRef.type = 'email';
+                      this.email.componentRef.required = true;
+                      this.email.componentRef.className = 'grommetux-text-input grommetux-input signup_form-email';
+                    }
+                  }}/>
+                <Status className='status-email-ok' value='ok' />
               </FormField>
               <FormField className='password-field' label='Password'>
-                <TextInput ref={item => this.password = item} />
+                <TextInput ref={item => {
+                    this.password = item;
+                    if (this.password) {
+                      this.password.componentRef.type = 'password';
+                      this.password.componentRef.required = true;
+                      this.password.componentRef.pattern = '.{6,}';
+                      this.password.componentRef.className = 'grommetux-text-input grommetux-input signup_form-pass';
+                      this.password.componentRef.placeholder = 'Minimum 6 characters';
+                    }
+                  }} />
+                <Status className='status-pass-ok' value='ok' />
               </FormField>
               <Label style={{lineHeight: '65px'}}>
                 Give us your group name:
               </Label>
               <MySearchField customType='select' {...this.props} />
               <Footer pad={{"vertical": "medium"}}>
-                <Button className='button-signup grommetux-button--fill' label='Sign Up'
+                <Button className='grommetux-button--fill' label='Sign Up'
                   primary={true}
                   onClick={this.signUpSubmit} />
               </Footer>
