@@ -4,22 +4,21 @@ import Alert from 'react-s-alert';
 import { fb_auth } from './firebaseStore';
 
 class AutorizeStore {
-  @observable autorizeType = 0; // 0 = log in, 1 = registration -- for UI purposes FIXME: go local state with it
+  @observable autorizeType = 0;
   @observable successLogin = false;
 
   createUser(email, password) {
     fb_auth.createUserWithEmailAndPassword(email, password).catch((error) => {
       console.log(error, 'createUser error');
-      console.log(this);
-      this.signInError(error);
+      this.showAuthError(error);
     });
   }
 
   @action userSignIn(email, password, redirect) {
     this.successLogin = false;
     fb_auth.signInWithEmailAndPassword(email, password)
-    .then(() => this.signInSuccess(redirect))
-    .catch(error => this.signInError(error));
+      .then(() => this.signInSuccess(redirect))
+      .catch(error => this.showAuthError(error));
   }
 
   @action changeAutorizeType(index) {
@@ -36,14 +35,14 @@ class AutorizeStore {
     })
   }
 
-  @action signInError(error) {
+  @action showAuthError(error) {
     //NOTE: change error message, depends on error.code
     Alert.error(error.message, {
       position: 'top-right',
       timeout: 30000,
       offset: 50,
       onShow: function() {
-        console.log(error, 'signInError')
+        console.log(error, 'auth Error!')
       }
     })
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
+import Alert from 'react-s-alert';
 
 import Heading from 'grommet/components/Heading';
 import Form from 'grommet/components/Form';
@@ -12,7 +13,6 @@ import Status from 'grommet/components/icons/Status';
 
 import MySearchField from './MySearchField';
 
-
 @inject('autorizeStore') @observer
 export default class MySignupForm extends Component {
 
@@ -20,11 +20,23 @@ export default class MySignupForm extends Component {
     super(props);
     this.email = null;
     this.password = null;
+    this.selectField = null;
   }
 
   signUpSubmit = (e) => {
     e.preventDefault();
-    this.props.autorizeStore.createUser(this.email.componentRef.value, this.password.componentRef.value);
+    const email = this.email.componentRef.value;
+    const password = this.password.componentRef.value;
+    const group = this.selectField.wrappedInstance.state.selectValue;
+    if (email && password && group) {
+      this.props.autorizeStore.createUser(email, password);
+    } else {
+       Alert.warning('All fields required', {
+         position: 'top-right',
+         offset: 50,
+         timeout: 4000
+       })
+    }
   }
 
   render() {
@@ -65,7 +77,10 @@ export default class MySignupForm extends Component {
           <Label style={{lineHeight: '65px'}}>
             Give us your group name:
           </Label>
-          <MySearchField customType='select' {...this.props} />
+          <MySearchField
+            customType='select'
+            ref={item => this.selectField = item}
+            {...this.props} />
           <Footer pad={{"vertical": "medium"}}>
             <Button className='grommetux-button--fill' label='Sign Up'
               primary={true}
