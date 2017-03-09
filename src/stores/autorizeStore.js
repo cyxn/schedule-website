@@ -8,8 +8,9 @@ class AutorizeStore {
   @observable successLogin = false;
 
   createUser(email, password) {
-    fb_auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
+    fb_auth.createUserWithEmailAndPassword(email, password).catch((error) => {
       console.log(error, 'createUser error');
+      console.log(this);
       this.signInError(error);
     });
   }
