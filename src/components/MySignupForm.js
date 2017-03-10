@@ -28,7 +28,9 @@ export default class MySignupForm extends Component {
     const email = this.email.componentRef.value;
     const password = this.password.componentRef.value;
     const group = this.selectField.wrappedInstance.state.selectValue;
-    if (email && password && group) {
+    const isEmailValid = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email);
+    const isPassValid = /.{6,}/.test(password);
+    if (isEmailValid && isPassValid && group) {
       this.props.autorizeStore.createUser(email, password);
     } else {
        Alert.warning('All fields required', {
