@@ -5,8 +5,8 @@ import Paragraph from 'grommet/components/Paragraph';
 import Button from 'grommet/components/Button';
 
 function BrowseAdditional(props) {
-  const { autorizeStore } = props;
-  const { changeAutorizeType } = autorizeStore;
+  const { uiStateStore } = props;
+  const { changeAutorizeType } = uiStateStore;
   return (
     <div>
       <Paragraph>
@@ -14,12 +14,12 @@ function BrowseAdditional(props) {
       </Paragraph>
       <div className='browse-buttons'>
         <Button label='Log in'
-          onClick={changeAutorizeType.bind(autorizeStore, 0)}
+          onClick={changeAutorizeType.bind(uiStateStore, 0)}
           className='button-login'
           path='/login'/>
         <Button label='Sign up'
           className='button-signup'
-          onClick={changeAutorizeType.bind(autorizeStore, 1)}
+          onClick={changeAutorizeType.bind(uiStateStore, 1)}
           path='/login'
           primary={true}/>
       </div>
@@ -27,4 +27,4 @@ function BrowseAdditional(props) {
   )
 }
 
-export default observer(['autorizeStore'], BrowseAdditional);
+export default observer(['uiStateStore'], BrowseAdditional);

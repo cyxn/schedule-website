@@ -2,9 +2,9 @@ import { observable, action } from 'mobx';
 import Alert from 'react-s-alert';
 
 import { fb_auth } from './firebaseStore';
+import uiStateStore from './uiStateStore';
 
 class AutorizeStore {
-  @observable autorizeType = 0;
   @observable successLogin = false;
   @observable user = {};
 
@@ -16,22 +16,21 @@ class AutorizeStore {
     })
   }
 
+  createUser(email, password, group, router) {
+    fb_auth.createUserWithEmailAndPassword(email, password)
+    .then((info) => {
+      console.log(info, 'info inside of createUserWithEmailAndPassword')
+      fb_auth.currentUser.updateProfile({displayName: group})
+      .then(() => this.saveUserInStore(fb_auth.currentUser))
+      .then(() => this.signInSuccess(router))
+    })
+    .catch((error) => this.showAuthError(error));
+  }
+
   @action saveUserInStore(userInfo) {
     this.user.email = userInfo.email;
     this.user.group = userInfo.displayName;
-    console.log(this.user.group, 'saving userInfo into store');
     this.user.emailVerifed = userInfo.emailVerified;
-  }
-
-  createUser(email, password, group, router) {
-    fb_auth.createUserWithEmailAndPassword(email, password)
-      .then((info) => {
-        console.log(info, 'info inside of createUserWithEmailAndPassword')
-        fb_auth.currentUser.updateProfile({displayName: group})
-          .then(() => this.saveUserInStore(fb_auth.currentUser))
-          .then(() => this.signInSuccess(router))
-      })
-      .catch((error) => this.showAuthError(error));
   }
 
   // FIXME: throw an error if something wrong to prevent data saving
@@ -42,12 +41,10 @@ class AutorizeStore {
       .catch(error => this.showAuthError(error));
   }
 
-  @action changeAutorizeType(index) {
-    this.autorizeType = index;
-  }
-
   @action signInSuccess(router) {
     this.successLogin = true;
+    console.log(uiStateStore, 'uiStateStore');
+    uiStateStore.triggerLoading(false);
     Alert.success('Successfully logged in', {
       position: 'top-right',
       timeout: 3500,

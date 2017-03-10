@@ -4,21 +4,21 @@ import { observer } from 'mobx-react';
 import Box from 'grommet/components/Box';
 
 function HeaderAnonymous(props) {
-  const { autorizeStore } = props;
-  const { changeAutorizeType } = autorizeStore;
+  const { uiStateStore } = props;
+  const { changeAutorizeType } = uiStateStore;
   return (
     <Box flex={true}
       justify='end'
       direction='row'
       responsive={false}>
       <Link to='/login'
-        onClick={changeAutorizeType.bind(autorizeStore, 0)}
+        onClick={changeAutorizeType.bind(uiStateStore, 0)}
         className='header-link'>
         Login
       </Link>
       <span className='header-split'>|</span>
       <Link to='/login'
-        onClick={changeAutorizeType.bind(autorizeStore, 1)}
+        onClick={changeAutorizeType.bind(uiStateStore, 1)}
         className='header-link'>
         Sign up
       </Link>
@@ -26,4 +26,4 @@ function HeaderAnonymous(props) {
   )
 }
 
-export default observer(['autorizeStore'], HeaderAnonymous);
+export default observer(['uiStateStore'], HeaderAnonymous);

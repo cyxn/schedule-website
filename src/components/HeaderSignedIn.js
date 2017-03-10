@@ -14,6 +14,7 @@ function HeaderSignedIn(props) {
       responsive={false}>
       <Button icon={<UserExpertIcon />}
         label={user.email}
+        className='user-profile'
         plain={true}
         path={`/timetable/${user.group}`} />
     </Box>

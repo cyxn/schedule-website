@@ -13,7 +13,7 @@ import Status from 'grommet/components/icons/Status';
 
 import MySearchField from './MySearchField';
 
-@inject('autorizeStore') @observer
+@inject('autorizeStore', 'uiStateStore') @observer
 export default class MySignupForm extends Component {
 
   constructor(props) {
@@ -25,13 +25,14 @@ export default class MySignupForm extends Component {
 
   signUpSubmit = (e) => {
     e.preventDefault();
-    const { autorizeStore } = this.props;
+    const { autorizeStore, uiStateStore } = this.props;
     const email = this.email.componentRef.value;
     const password = this.password.componentRef.value;
     const group = this.selectField.wrappedInstance.state.selectValue;
     const isEmailValid = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email);
     const isPassValid = /.{6,}/.test(password);
     if (isEmailValid && isPassValid && group) {
+      uiStateStore.triggerLoading(true);
       autorizeStore.createUser(
         email,
         password,

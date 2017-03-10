@@ -5,11 +5,12 @@ import LoginForm from 'grommet/components/LoginForm';
 import Heading from 'grommet/components/Heading';
 import Anchor from 'grommet/components/Anchor';
 
-@inject('autorizeStore') @observer
+@inject('autorizeStore', 'uiStateStore') @observer
 export default class MyLoginForm extends Component {
 
   loginSubmit = (credits) => {
-    const { autorizeStore } = this.props
+    const { autorizeStore, uiStateStore } = this.props;
+    uiStateStore.triggerLoading(true);
     autorizeStore.userSignIn(
       credits.username,
       credits.password,

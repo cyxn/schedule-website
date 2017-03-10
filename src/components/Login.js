@@ -9,7 +9,7 @@ import MySignupForm from './MySignupForm';
 
 import '../styles/Login.sass';
 
-@inject('autorizeStore') @observer
+@inject('uiStateStore') @observer
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -18,11 +18,11 @@ export default class Login extends Component {
   }
 
   changeTab = (tabNum) => {
-    this.props.autorizeStore.changeAutorizeType(tabNum);
+    this.props.uiStateStore.changeAutorizeType(tabNum);
   }
 
   render() {
-    const { autorizeType } = this.props.autorizeStore;
+    const { autorizeType } = this.props.uiStateStore;
     return (
       <div className='authorisation-forms'>
         <Tabs activeIndex={autorizeType}
