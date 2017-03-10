@@ -11,6 +11,7 @@ import Button from 'grommet/components/Button';
 import Label from 'grommet/components/Label';
 import Status from 'grommet/components/icons/Status';
 
+import { redirect } from '../services/redirect';
 import MySearchField from './MySearchField';
 
 @inject('autorizeStore') @observer
@@ -31,11 +32,13 @@ export default class MySignupForm extends Component {
     const group = this.selectField.wrappedInstance.state.selectValue;
     const isEmailValid = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email);
     const isPassValid = /.{6,}/.test(password);
-    const redirect = () => {
-      this.props.router.push(`/timetable/${autorizeStore.user.group}`);
-    }
     if (isEmailValid && isPassValid && group) {
-      autorizeStore.createUser(email, password, group, redirect);
+      autorizeStore.createUser(
+        email,
+        password,
+        group,
+        redirect.bind(this, this.props.router, `/timetable/${autorizeStore.user.group}`)
+      );
     } else {
        Alert.warning('All fields required', {
          position: 'top-right',

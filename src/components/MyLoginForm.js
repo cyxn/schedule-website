@@ -5,15 +5,18 @@ import LoginForm from 'grommet/components/LoginForm';
 import Heading from 'grommet/components/Heading';
 import Anchor from 'grommet/components/Anchor';
 
+import { redirect } from '../services/redirect';
+
 @inject('autorizeStore') @observer
 export default class MyLoginForm extends Component {
 
   loginSubmit = (credits) => {
     const { autorizeStore } = this.props
-    const redirect = () => {
-      this.props.router.push(`/timetable/${autorizeStore.user.group}`);
-    }
-    autorizeStore.userSignIn(credits.username, credits.password, redirect);
+    autorizeStore.userSignIn(
+      credits.username,
+      credits.password,
+      redirect.bind(this, this.props.router, `/timetable/${autorizeStore.user.group}`)
+    );
   }
 
   render() {
