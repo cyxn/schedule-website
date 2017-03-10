@@ -11,7 +11,6 @@ import Button from 'grommet/components/Button';
 import Label from 'grommet/components/Label';
 import Status from 'grommet/components/icons/Status';
 
-import { redirect } from '../services/redirect';
 import MySearchField from './MySearchField';
 
 @inject('autorizeStore') @observer
@@ -37,7 +36,7 @@ export default class MySignupForm extends Component {
         email,
         password,
         group,
-        redirect.bind(this, this.props.router, `/timetable/${autorizeStore.user.group}`)
+        this.props.router
       );
     } else {
        Alert.warning('All fields required', {

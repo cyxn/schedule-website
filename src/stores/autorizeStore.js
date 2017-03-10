@@ -11,7 +11,7 @@ class AutorizeStore {
   constructor() {
     fb_auth.onAuthStateChanged((user) => {
       console.log(user, 'onAuthStateChanged fired');
-      if (user.displayName)
+      if (user && user.displayName)
         this.saveUserInStore(user);
     })
   }
@@ -19,22 +19,26 @@ class AutorizeStore {
   @action saveUserInStore(userInfo) {
     this.user.email = userInfo.email;
     this.user.group = userInfo.displayName;
+    console.log(this.user.group, 'saving userInfo into store');
     this.user.emailVerifed = userInfo.emailVerified;
   }
 
-  createUser(email, password, group, redirect) {
+  createUser(email, password, group, router) {
     fb_auth.createUserWithEmailAndPassword(email, password)
-      .then(() => fb_auth.currentUser.updateProfile({displayName: group}))
-      .then(() => this.saveUserInStore(fb_auth.currentUser))
-      .then(() => this.signInSuccess(redirect))
+      .then((info) => {
+        console.log(info, 'info inside of createUserWithEmailAndPassword')
+        fb_auth.currentUser.updateProfile({displayName: group})
+          .then(() => this.saveUserInStore(fb_auth.currentUser))
+          .then(() => this.signInSuccess(router))
+      })
       .catch((error) => this.showAuthError(error));
   }
 
   // FIXME: throw an error if something wrong to prevent data saving
-  @action userSignIn(email, password, redirect) {
+  @action userSignIn(email, password, router) {
     this.successLogin = false;
     fb_auth.signInWithEmailAndPassword(email, password)
-      .then(() => this.signInSuccess(redirect))
+      .then(() => this.signInSuccess(router))
       .catch(error => this.showAuthError(error));
   }
 
@@ -42,13 +46,15 @@ class AutorizeStore {
     this.autorizeType = index;
   }
 
-  @action signInSuccess(redirect) {
+  @action signInSuccess(router) {
     this.successLogin = true;
     Alert.success('Successfully logged in', {
       position: 'top-right',
       timeout: 3500,
       offset: 50,
-      onShow: redirect()
+      onShow: () => {
+        router.push(`/timetable/${this.user.group}`)
+      }
     })
   }
 

@@ -5,8 +5,6 @@ import LoginForm from 'grommet/components/LoginForm';
 import Heading from 'grommet/components/Heading';
 import Anchor from 'grommet/components/Anchor';
 
-import { redirect } from '../services/redirect';
-
 @inject('autorizeStore') @observer
 export default class MyLoginForm extends Component {
 
@@ -15,7 +13,7 @@ export default class MyLoginForm extends Component {
     autorizeStore.userSignIn(
       credits.username,
       credits.password,
-      redirect.bind(this, this.props.router, `/timetable/${autorizeStore.user.group}`)
+      this.props.router
     );
   }
 
