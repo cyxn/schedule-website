@@ -25,13 +25,17 @@ export default class MySignupForm extends Component {
 
   signUpSubmit = (e) => {
     e.preventDefault();
+    const { autorizeStore } = this.props;
     const email = this.email.componentRef.value;
     const password = this.password.componentRef.value;
     const group = this.selectField.wrappedInstance.state.selectValue;
     const isEmailValid = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(email);
     const isPassValid = /.{6,}/.test(password);
+    const redirect = () => {
+      this.props.router.push(`/timetable/${autorizeStore.user.group}`);
+    }
     if (isEmailValid && isPassValid && group) {
-      this.props.autorizeStore.createUser(email, password);
+      autorizeStore.createUser(email, password, group, redirect);
     } else {
        Alert.warning('All fields required', {
          position: 'top-right',
@@ -58,6 +62,7 @@ export default class MySignupForm extends Component {
               if (this.email) {
                 this.email.componentRef.type = 'email';
                 this.email.componentRef.required = true;
+                this.email.componentRef.pattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
                 this.email.componentRef.className = 'grommetux-text-input grommetux-input signup_form-email';
               }
             }}/>

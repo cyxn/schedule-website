@@ -9,10 +9,11 @@ import Anchor from 'grommet/components/Anchor';
 export default class MyLoginForm extends Component {
 
   loginSubmit = (credits) => {
+    const { autorizeStore } = this.props
     const redirect = () => {
-      this.props.router.push('/'); //NOTE: take path from store userAuthStore about group name
+      this.props.router.push(`/timetable/${autorizeStore.user.group}`);
     }
-    this.props.autorizeStore.userSignIn(credits.username, credits.password, redirect);
+    autorizeStore.userSignIn(credits.username, credits.password, redirect);
   }
 
   render() {

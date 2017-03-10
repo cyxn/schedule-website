@@ -6,14 +6,31 @@ import { fb_auth } from './firebaseStore';
 class AutorizeStore {
   @observable autorizeType = 0;
   @observable successLogin = false;
+  @observable user = {};
 
-  createUser(email, password) {
-    fb_auth.createUserWithEmailAndPassword(email, password).catch((error) => {
-      console.log(error, 'createUser error');
-      this.showAuthError(error);
-    });
+  constructor() {
+    fb_auth.onAuthStateChanged((user) => {
+      console.log(user, 'onAuthStateChanged fired');
+      if (user.displayName)
+        this.saveUserInStore(user);
+    })
   }
 
+  @action saveUserInStore(userInfo) {
+    this.user.email = userInfo.email;
+    this.user.group = userInfo.displayName;
+    this.user.emailVerifed = userInfo.emailVerified;
+  }
+
+  createUser(email, password, group, redirect) {
+    fb_auth.createUserWithEmailAndPassword(email, password)
+      .then(() => fb_auth.currentUser.updateProfile({displayName: group}))
+      .then(() => this.saveUserInStore(fb_auth.currentUser))
+      .then(() => this.signInSuccess(redirect))
+      .catch((error) => this.showAuthError(error));
+  }
+
+  // FIXME: throw an error if something wrong to prevent data saving
   @action userSignIn(email, password, redirect) {
     this.successLogin = false;
     fb_auth.signInWithEmailAndPassword(email, password)

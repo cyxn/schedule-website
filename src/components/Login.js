@@ -28,10 +28,10 @@ export default class Login extends Component {
         <Tabs activeIndex={autorizeType}
           onActive={this.changeTab}>
           <Tab title='LOGIN'>
-            <MyLoginForm />
+            <MyLoginForm {...this.props}/>
           </Tab>
           <Tab title='SIGN UP'>
-            <MySignupForm />
+            <MySignupForm {...this.props}/>
           </Tab>
         </Tabs>
       </div>

@@ -1,7 +1,6 @@
 import groupsStore from './groupsStore';
 import timetableStore from './timetableStore';
 import autorizeStore from './autorizeStore';
-import userAuthStore from './userAuthStore';
 
 import { autorun } from 'mobx';
 
@@ -9,7 +8,6 @@ import { autorun } from 'mobx';
 export {
   groupsStore,
   autorizeStore,
-  userAuthStore,
   timetableStore
  };
 
