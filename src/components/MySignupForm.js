@@ -65,6 +65,7 @@ export default class MySignupForm extends Component {
               if (this.email) {
                 this.email.componentRef.type = 'email';
                 this.email.componentRef.required = true;
+                // eslint-disable-next-line
                 this.email.componentRef.pattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
                 this.email.componentRef.className = 'grommetux-text-input grommetux-input signup_form-email';
               }

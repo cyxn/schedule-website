@@ -1,6 +1,6 @@
 .header-link
   cursor: pointer
-  transition: all 200ms ease-out
+  transition: color .15s ease-in-out
   margin-right: 20px
   &:hover
     color: #e64d41
@@ -14,5 +14,20 @@
   cursor: default
   margin-right: 15px
 
-.user-profile
+.header-menu
   margin-right: 20px
+  width: 450px
+  justify-content: space-between
+
+.header-menu-item
+  color: #757575 !important
+  & svg
+    transition: all .15s ease-in-out !important
+    fill: #757575 !important
+    stroke: #757575 !important
+
+.header-menu-item:hover
+  color: #000 !important
+  & svg
+    fill: #000 !important
+    stroke: #000 !important

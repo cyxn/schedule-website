@@ -27,4 +27,4 @@ function BrowseAdditional(props) {
   )
 }
 
-export default observer(['uiStateStore'], BrowseAdditional);
+export default inject('uiStateStore')(observer(BrowseAdditional));

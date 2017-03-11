@@ -18,8 +18,7 @@ class AutorizeStore {
 
   createUser(email, password, group, router) {
     fb_auth.createUserWithEmailAndPassword(email, password)
-    .then((info) => {
-      console.log(info, 'info inside of createUserWithEmailAndPassword')
+    .then(() => {
       fb_auth.currentUser.updateProfile({displayName: group})
       .then(() => this.saveUserInStore(fb_auth.currentUser))
       .then(() => this.signInSuccess(router))
@@ -37,13 +36,13 @@ class AutorizeStore {
   @action userSignIn(email, password, router) {
     this.successLogin = false;
     fb_auth.signInWithEmailAndPassword(email, password)
+      .then(() => this.saveUserInStore(fb_auth.currentUser))
       .then(() => this.signInSuccess(router))
       .catch(error => this.showAuthError(error));
   }
 
   @action signInSuccess(router) {
     this.successLogin = true;
-    console.log(uiStateStore, 'uiStateStore');
     uiStateStore.triggerLoading(false);
     Alert.success('Successfully logged in', {
       position: 'top-right',

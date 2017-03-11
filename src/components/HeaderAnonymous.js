@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import Box from 'grommet/components/Box';
 
 function HeaderAnonymous(props) {
@@ -26,4 +26,4 @@ function HeaderAnonymous(props) {
   )
 }
 
-export default observer(['uiStateStore'], HeaderAnonymous);
+export default inject('uiStateStore')(observer(HeaderAnonymous));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 
 import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
@@ -24,4 +24,4 @@ function AppBarHeader(props) {
     </Header>
   );
 }
-export default observer(['autorizeStore'], AppBarHeader);
+export default inject('autorizeStore')(observer(AppBarHeader));
