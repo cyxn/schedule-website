@@ -5,16 +5,19 @@ import Search from 'grommet/components/Search';
 import Select from 'grommet/components/Select';
 
 
-@inject('groupsStore') @observer
+@inject('groupsStore', 'uiStateStore') @observer
 export default class MySearchField extends Component {
 
   constructor(props) {
     super(props);
+    this.initialSelectValue = props.uiStateStore.groupName;
     this.state = {
-      selectValue: undefined
+      selectValue: this.initialSelectValue
     }
     this.selectField = null;
     this.groupIndex = -1;
+    this.inputValue = '';
+    this.newGroup = 'Create new group';
   }
 
   componentDidMount() {
@@ -23,23 +26,40 @@ export default class MySearchField extends Component {
   }
 
   hangleChange = (event) => {
-    this.props.groupsStore.fetchGroups(event.target.value);
+    const { value } = event.target;
+    this.props.uiStateStore.changeGroupName(value);
+    this.props.groupsStore.fetchGroups(value);
+    this.inputValue = value;
   }
 
   suggestionList = (groups) => {
-    if (groups.length === 0) return [];
-    return groups
-        .map(item => item.group_full_name)
-        .filter((item, index) => index < 8);
+    if (groups.length === 0) return [this.newGroup];
+    const groupsList = groups
+      .map(item => item.group_full_name)
+      .filter((item, index) => index < 7);
+    groupsList.unshift('Create new group');
+    return groupsList;
   }
 
   handleSelect = (object) => {
+    const { router, uiStateStore } = this.props;
     if (this.props.customType === 'search') {
-      this.props.router.push(`/timetable/${object.suggestion}`);
+      if (object.suggestion === this.newGroup) {
+        uiStateStore.changeAutorizeType(1);
+        router.push('/login'); // NOTE: connect ui state and change to sign up
+      } else {
+        router.push(`/timetable/${object.suggestion}`);
+      }
     } else {
-      this.setState({
-        selectValue: object.option
-      })
+      if (object.option === this.newGroup) {
+        this.setState({
+          selectValue: this.inputValue
+        })
+      } else {
+        this.setState({
+          selectValue: object.option
+        })
+      }
     }
 
   }
