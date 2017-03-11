@@ -20,7 +20,7 @@ function AppBarHeader(props) {
           Schedule site
         </Title>
       </Link>
-      {successLogin ? <HeaderSignedIn /> : <HeaderAnonymous />}
+      {successLogin ? <HeaderSignedIn {...props}/> : <HeaderAnonymous />}
     </Header>
   );
 }

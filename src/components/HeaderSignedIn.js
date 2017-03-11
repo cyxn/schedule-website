@@ -9,7 +9,10 @@ import Box from 'grommet/components/Box';
 import Menu from 'grommet/components/Menu';
 
 function HeaderSignedIn(props) {
-  const { user } = props.autorizeStore;
+  const { user, userSignOut } = props.autorizeStore;
+  function signOut() {
+    userSignOut.bind(props.autorizeStore, props.router)();
+  }
   return (
     <Box flex={true}
       justify='end'
@@ -34,7 +37,7 @@ function HeaderSignedIn(props) {
         <Button label='Sign out'
           icon={<LogoutIcon />}
           className='header-menu-item'
-          onClick={() => console.log('Sign out clicked')}
+          onClick={signOut}
           plain={true} />
       </Menu>
     </Box>

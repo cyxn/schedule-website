@@ -11,17 +11,20 @@ class AutorizeStore {
   constructor() {
     fb_auth.onAuthStateChanged((user) => {
       console.log(user, 'onAuthStateChanged fired');
-      if (user && user.displayName)
+      if (user && user.displayName) {
         this.saveUserInStore(user);
+        action(() => this.successLogin = true)();
+      }
     })
   }
 
+  // FIXME: throw an error if something wrong to prevent data saving
   createUser(email, password, group, router) {
     fb_auth.createUserWithEmailAndPassword(email, password)
     .then(() => {
       fb_auth.currentUser.updateProfile({displayName: group})
       .then(() => this.saveUserInStore(fb_auth.currentUser))
-      .then(() => this.signInSuccess(router))
+      .then(() => this.alertSuccess(router, 'Successfully created account!'))
     })
     .catch((error) => this.showAuthError(error));
   }
@@ -37,19 +40,26 @@ class AutorizeStore {
     this.successLogin = false;
     fb_auth.signInWithEmailAndPassword(email, password)
       .then(() => this.saveUserInStore(fb_auth.currentUser))
-      .then(() => this.signInSuccess(router))
+      .then(() => this.alertSuccess(router, 'Successfully logged in!'))
       .catch(error => this.showAuthError(error));
   }
 
-  @action signInSuccess(router) {
+  @action userSignOut(router) {
+    this.user = {};
+    fb_auth.signOut()
+      .then(() => this.alertSuccess(router, 'Successfully logged out', '/'))
+      .then(action(() => this.successLogin = false))
+  }
+
+  @action alertSuccess(router, message, path = `/timetable/${this.user.group}`) {
     this.successLogin = true;
     uiStateStore.triggerLoading(false);
-    Alert.success('Successfully logged in', {
+    Alert.success(message, {
       position: 'top-right',
       timeout: 3500,
       offset: 50,
       onShow: () => {
-        router.push(`/timetable/${this.user.group}`)
+        router.push(path)
       }
     })
   }
