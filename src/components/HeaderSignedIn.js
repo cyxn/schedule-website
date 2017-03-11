@@ -24,7 +24,6 @@ function HeaderSignedIn(props) {
         direction='row'>
         <Button label='My schedule'
           icon={<ScheduleIcon />}
-          onClick={() => console.log('My schedule clicked')}
           path={`/timetable/${user.group}`}
           className='header-menu-item'
           plain={true} />
@@ -32,7 +31,6 @@ function HeaderSignedIn(props) {
           icon={<UserExpertIcon />}
           path='/profile'
           className='header-menu-item'
-          onClick={() => console.log('Profile clicked')}
           plain={true} />
         <Button label='Sign out'
           icon={<LogoutIcon />}

@@ -9,12 +9,13 @@ import MySignupForm from './MySignupForm';
 
 import '../styles/Login.sass';
 
-@inject('uiStateStore') @observer
+@inject('uiStateStore', 'autorizeStore') @observer
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.email = null;
-    this.password = null;
+
+  componentDidMount() {
+    if (this.props.autorizeStore.user.group) {
+      this.props.router.push('/');
+    }
   }
 
   changeTab = (tabNum) => {

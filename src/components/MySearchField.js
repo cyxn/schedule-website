@@ -61,7 +61,7 @@ export default class MySearchField extends Component {
         })
       }
     }
-
+  this.props.uiStateStore.changeGroupName('');
   }
 
   onKeyDown = (event) => {
