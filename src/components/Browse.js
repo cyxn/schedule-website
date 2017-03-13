@@ -9,7 +9,8 @@ import '../styles/Browse.sass';
 export default class Browse extends Component {
 
   render() {
-    const { successLogin } = this.props.autorizeStore
+    const { successLogin, storeLoaded } = this.props.autorizeStore;
+    if (!storeLoaded) return null;
     return (
       <div className='browse-search'>
         <MySearchField customType='search' {...this.props}/>

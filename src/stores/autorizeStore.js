@@ -6,10 +6,12 @@ import uiStateStore from './uiStateStore';
 
 class AutorizeStore {
   @observable successLogin = false;
+  @observable storeLoaded = false;
   @observable user = {};
 
   constructor() {
     fb_auth.onAuthStateChanged((user) => {
+      action(() => this.storeLoaded = true)();
       console.log(user, 'onAuthStateChanged fired');
       if (user && user.displayName) {
         this.saveUserInStore(user);

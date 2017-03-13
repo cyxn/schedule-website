@@ -14,9 +14,9 @@ export {
  };
 
 autorun('TimetableStore', () => {
- console.log('---------------timetableStore---------------');
- console.log(timetableStore.schedule);
- console.log('dataReady: ' + timetableStore.dataReady);
- console.log('notFound: ' + timetableStore.notFound);
- console.log('---------------timetableStore---------------');
+  console.group('TimetableStore');
+    console.log(timetableStore.schedule);
+    console.log('dataReady: ' + timetableStore.dataReady);
+    console.log('notFound: ' + timetableStore.notFound);
+  console.groupEnd();
 })

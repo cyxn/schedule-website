@@ -11,8 +11,8 @@ import HeaderSignedIn from './HeaderSignedIn';
 import '../styles/Header.sass';
 
 function AppBarHeader(props) {
-  const { successLogin } = props.autorizeStore;
-
+  const { successLogin, storeLoaded } = props.autorizeStore;
+  if (!storeLoaded) return null;
   return (
     <Header>
       <Link to='/' className='header-link header-title'>
